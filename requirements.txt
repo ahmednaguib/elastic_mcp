@@ -1,3 +1,4 @@
 fastmcp
 elasticsearch
 python-dotenv
+pytest
