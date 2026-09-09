@@ -1,7 +1,7 @@
 # elastic_mcp
 Sample MCP server for connecting to an elasticsearch index
 
-
+```
 elastic-mcp/
 ├── src/
 │   ├── server.py
@@ -18,3 +18,4 @@ elastic-mcp/
 ├── requirements.txt
 ├── .env.example
 └── README.md
+```
