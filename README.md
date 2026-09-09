@@ -167,5 +167,6 @@ You should receive matching Elasticsearch documents.
 8. Run the tests
 
 Run the test suite (no Elasticsearch connection required — the client is mocked):
-
+```
 python -m pytest
+```
