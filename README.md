@@ -23,55 +23,51 @@ elastic-mcp/
 ```
 
 Prerequisites
-
-Install:
-
-Python 3.10+
-
-Docker / Docker Compose
-
-Node.js + npm (only needed for MCP Inspector)
+- Python 3.10+
+- Docker / Docker Compose
+- Node.js + npm (only needed for MCP Inspector)
 
 Verify:
-
+```
 python3 --version
 docker --version
 docker compose version
 node --version
 npm --version
+```
 
 1. Create the Python environment
 
 From the project root:
-
+```
 python3 -m venv .venv
 source .venv/bin/activate
-
-On Windows:
-
-.venv\Scripts\activate
+```
 
 Install dependencies:
-
+```
 pip install -r requirements.txt
+```
 
 2. Configure environment variables
 
 Create .env:
 
+```
 ELASTICSEARCH_URL=http://localhost:9200
 ELASTICSEARCH_INDEX=logs
+```
 
 3. Start Elasticsearch
 
 Start the local Elasticsearch container:
-
+```
 docker compose up -d
-
+```
 Check that Elasticsearch is running:
-
+```
 curl http://localhost:9200
-
+```
 You should receive an Elasticsearch cluster response.
 
 4. Generate synthetic application data
@@ -79,26 +75,21 @@ You should receive an Elasticsearch cluster response.
 The project includes a synthetic production-like dataset.
 
 Generate the data:
-
+```
 python scripts/generate_data.py
-
+```
 This creates:
-
+```
 data/events.ndjson
-
+```
 The dataset contains services such as:
 
-api-gateway
-
-checkout
-
-payments
-
-orders
-
-users
-
-notifications
+- api-gateway
+- checkout
+- payments
+- orders
+- users
+- notifications
 
 It also contains a deliberately injected checkout incident:
 
@@ -113,65 +104,62 @@ payment timeouts and 5xx responses increase
 
 5. Create the Elasticsearch index and import data
 
-If the logs index already exists and you want a clean dataset:
-
-curl -X DELETE http://localhost:9200/logs
-
-Then import the data:
-
+import the data:
+```
 ./scripts/import_data.sh
-
+````
 Verify the document count:
-
+```
 curl "http://localhost:9200/logs/_count?pretty"
-
+```
 You should see approximately:
-
+```
 {
   "count": 100001
 }
-
+```
 6. Start the MCP server
 
 From the project root:
-
+```
 python -m src.server
-
+```
 The server starts with an SSE transport on http://localhost:8000/sse.
 
 Override the transport (e.g. for stdio-based chat clients) with:
-
+```
 MCP_TRANSPORT=stdio python -m src.server
-
+```
 Keep this terminal running.
 
 7. Test the MCP server with MCP Inspector
 
 In a second terminal, from the project root:
-
+```
 npx @modelcontextprotocol/inspector
-
+```
 In the Inspector, connect using:
-
+```
 Transport type: SSE
 
 URL: http://localhost:8000/sse
-
+```
 The server should expose:
 
-Engineering Intelligence
+eng-intelligence
 
+```
 Tools
 └── search_application_logs
     ├── query
     ├── service
     ├── level
     └── limit
-
+```
 Try a query such as:
-
+```
 query: payment
 service: checkout
 limit: 10
-
+```
 You should receive matching Elasticsearch documents.
