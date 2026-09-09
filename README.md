@@ -3,7 +3,20 @@ A local Model Context Protocol (MCP) server that exposes Elasticsearch applicati
 
 The current MVP provides a search_application_logs tool backed by Elasticsearch.
 
-Project structure:
+## Table of Contents
+
+- [Project structure](#project-structure)
+- [Prerequisites](#prerequisites)
+- [1. Create the Python environment](#1-create-the-python-environment)
+- [2. Configure environment variables](#2-configure-environment-variables)
+- [3. Start Elasticsearch](#3-start-elasticsearch)
+- [4. Generate synthetic application data](#4-generate-synthetic-application-data)
+- [5. Create the Elasticsearch index and import data](#5-create-the-elasticsearch-index-and-import-data)
+- [6. Start the MCP server](#6-start-the-mcp-server)
+- [7. Test the MCP server with MCP Inspector](#7-test-the-mcp-server-with-mcp-inspector)
+- [8. Run the tests](#8-run-the-tests)
+
+## Project structure
 
 ```
 elastic-mcp/
@@ -22,7 +35,7 @@ elastic-mcp/
 └── README.md
 ```
 
-Prerequisites
+## Prerequisites
 - Python 3.10+
 - Docker / Docker Compose
 - Node.js + npm (only needed for MCP Inspector)
@@ -36,7 +49,7 @@ node --version
 npm --version
 ```
 
-1. Create the Python environment
+## 1. Create the Python environment
 
 From the project root:
 ```
@@ -49,7 +62,7 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
-2. Configure environment variables
+## 2. Configure environment variables
 
 Create .env:
 
@@ -58,7 +71,7 @@ ELASTICSEARCH_URL=http://localhost:9200
 ELASTICSEARCH_INDEX=logs
 ```
 
-3. Start Elasticsearch
+## 3. Start Elasticsearch
 
 Start the local Elasticsearch container:
 ```
@@ -70,7 +83,7 @@ curl http://localhost:9200
 ```
 You should receive an Elasticsearch cluster response.
 
-4. Generate synthetic application data
+## 4. Generate synthetic application data
 
 The project includes a synthetic production-like dataset.
 
@@ -102,7 +115,7 @@ checkout latency/error spike begins
 08:00-09:00 UTC
 payment timeouts and 5xx responses increase
 
-5. Create the Elasticsearch index and import data
+## 5. Create the Elasticsearch index and import data
 
 import the data:
 ```
@@ -118,7 +131,7 @@ You should see approximately:
   "count": 100001
 }
 ```
-6. Start the MCP server
+## 6. Start the MCP server
 
 From the project root:
 ```
@@ -132,7 +145,7 @@ MCP_TRANSPORT=stdio python -m src.server
 ```
 Keep this terminal running.
 
-7. Test the MCP server with MCP Inspector
+## 7. Test the MCP server with MCP Inspector
 
 In a second terminal, from the project root:
 ```
@@ -164,7 +177,7 @@ limit: 10
 ```
 You should receive matching Elasticsearch documents.
 
-8. Run the tests
+## 8. Run the tests
 
 Run the test suite (no Elasticsearch connection required — the client is mocked):
 ```
