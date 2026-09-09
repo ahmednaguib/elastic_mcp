@@ -1,0 +1,17 @@
+{
+  "mappings": {
+    "properties": {
+      "@timestamp": {"type": "date"},
+      "service": {"type": "keyword"},
+      "environment": {"type": "keyword"},
+      "level": {"type": "keyword"},
+      "message": {"type": "text"},
+      "endpoint": {"type": "keyword"},
+      "status_code": {"type": "integer"},
+      "latency_ms": {"type": "float"},
+      "trace_id": {"type": "keyword"},
+      "deployment": {"type": "keyword"},
+      "event_type": {"type": "keyword"}
+    }
+  }
+}
